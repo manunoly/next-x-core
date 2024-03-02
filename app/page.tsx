@@ -3,6 +3,7 @@ import { Poppins } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { LoginButton } from "@/components/auth/login-button";
+import Image from "next/image";
 
 const font = Poppins({
   subsets: ["latin"],
@@ -17,13 +18,18 @@ export default function Home() {
           "text-6xl font-semibold text-white drop-shadow-md",
           font.className,
         )}>
-          🔐 Auth
+          <div className="flex items-center justify-center">
+            <Image src="/logo.svg" alt="Auth Logo" className="mx-0" width={80} height={80} />
+            <span className="-ml-2">
+              -Core
+            </span>
+          </div>
         </h1>
         <p className="text-white text-lg">
-          A simple authentication service
+          Un sistema financiero para todos
         </p>
         <div>
-          <LoginButton  asChild>
+          <LoginButton asChild>
             <Button variant="secondary" size="lg">
               Sign in
             </Button>
