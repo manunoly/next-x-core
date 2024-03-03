@@ -18,8 +18,8 @@ export const Navbar = () => {
     { id: 3, link: "portfolio", title: "Portfolio" },
     { id: 4, link: "client", title: "Cliente" },
     { id: 5, link: "server", title: "Servidor" },
-    { id: 5, link: "settings", title: "Settings" },
-    { id: 5, link: "profile", title: "Profile" },
+    { id: 6, link: "settings", title: "Settings" },
+    { id: 7, link: "profile", title: "Profile" },
   ];
 
   return (
