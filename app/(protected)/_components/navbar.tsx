@@ -1,26 +1,32 @@
 "use client";
 
 import Image from "next/image";
-// components/Navbar.js
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { UserButton } from "@/components/auth/user-button";
 import { usePathname } from "next/navigation";
+import { getMenu } from "@/actions/menu";
+import { Menu } from "@prisma/client";
 
 export const Navbar = () => {
   const pathname = usePathname();
   const [nav, setNav] = useState(false);
+  const [menuLinks, setMenuLinks] = useState([{ id: 1, link: "home", title: "Home" }]);
 
-  const links = [
-    { id: 1, link: "home", title: "Home" },
-    { id: 2, link: "about", title: "About" },
-    { id: 3, link: "portfolio", title: "Portfolio" },
-    { id: 4, link: "client", title: "Cliente" },
-    { id: 5, link: "server", title: "Servidor" },
-    { id: 6, link: "settings", title: "Settings" },
-    { id: 7, link: "profile", title: "Profile" },
-  ];
+  async function loadMenu() {
+    getMenu().then((data: Menu | null) => {
+      if (data && data.menu) {
+        setMenuLinks(JSON.parse(data.menu));
+      }
+    }).catch((error) => {
+      console.log('error', error);
+    });
+  }
+
+  useEffect(() => {
+    loadMenu();
+  }, []);
 
   return (
     <div className="flex justify-between items-center w-full h-20 px-4 text-white fixed nav top-0 z-50">
@@ -33,11 +39,10 @@ export const Navbar = () => {
       </div>
 
       <ul className="hidden md:flex">
-        {links.map(({ id, link, title }) => (
+        {menuLinks.map(({ id, link, title }) => (
           <li
             key={id}
             className={pathname === `/${link}` ? "nav-links px-4 cursor-pointer capitalize font-medium text-white" : "nav-links px-4 cursor-pointer capitalize font-medium text-black hover:scale-105 hover:text-blue duration-200 link-underline"}
-          // use pathname to compare the current page and change the color of the link
           >
             <Link href={link}>{title}</Link>
           </li>
@@ -55,7 +60,7 @@ export const Navbar = () => {
       </div>
       {nav && (
         <ul className="flex flex-col justify-center items-center absolute top-0 left-0 w-full h-screen bg-gradient-to-b ">
-          {links.map(({ id, link, title }) => (
+          {menuLinks.map(({ id, link, title }) => (
             <li
               key={id}
               className="px-4 cursor-pointer capitalize py-6 text-4xl"
@@ -68,6 +73,5 @@ export const Navbar = () => {
         </ul>
       )}
     </div>
-
   );
 };

@@ -1,6 +1,6 @@
 // prisma/schema.prisma
 datasource db {
-  provider  = "mysql"
+  provider  = "postgresql"
   url  	    = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
@@ -25,6 +25,12 @@ model User {
   accounts      Account[]
   isTwoFactorEnabled Boolean @default(false)
   twoFactorConfirmation TwoFactorConfirmation?
+}
+
+model Menu {
+  id        String    @id @default(cuid())
+  role      String @unique
+  menu      String?
 }
 
 model Account {
